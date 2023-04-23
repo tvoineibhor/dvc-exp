@@ -28,4 +28,4 @@ jobs:
           dvc remote modify origin --local auth basic
           dvc remote modify origin --local user dags_user
           dvc remote modify origin --local password dags_password
-          dvc remote list
+          dvc pull -r origin
