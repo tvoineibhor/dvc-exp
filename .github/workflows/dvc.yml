@@ -16,7 +16,6 @@ jobs:
         with:
           python-version: 3.8
         
-        
       - name: install dvc
         uses: iterative/setup-dvc@v1
     
@@ -29,3 +28,18 @@ jobs:
           dvc remote modify origin --local user $dags_user
           dvc remote modify origin --local password $dags_password
           dvc pull --remote origin
+          
+      - name: reproduce model
+        run: dvc repro
+        
+      - name: Iterative CML setup
+        uses: iterative/setup-cml@v1
+        
+      - name: create CML report
+        env:
+          REPO_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+        run: |
+          dvc metrics show --show-md >> report.md
+          cat dvclive/params.yaml >> report.md
+          cml comment create report.md
+        
