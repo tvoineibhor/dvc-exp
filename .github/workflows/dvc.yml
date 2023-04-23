@@ -26,6 +26,6 @@ jobs:
           dags_password: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
           dvc remote modify origin --local auth basic
-          dvc remote modify origin --local user dags_user
-          dvc remote modify origin --local password dags_password
+          dvc remote modify origin --local user tvoineibhor
+          dvc remote modify origin --local password 3d968c906888a41b6283494d182959db6edcc871
           dvc pull --remote origin
