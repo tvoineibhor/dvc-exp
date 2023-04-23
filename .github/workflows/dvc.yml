@@ -1,0 +1,28 @@
+name: Test code and app
+on: 
+  pull_request:
+    branches: [main]
+      
+jobs:
+  test_model:
+    name: Test processed code and model
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v2
+
+      - name: Environment setup
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+        
+        
+      - name: install dvc
+        uses: iterative/setup-dvc@v1
+    
+      - name: pulling data
+        env:
+          dags_user: ${{ secrets.DAGSHUB_USER }}
+          dags_password: ${{ secrets.DAGSHUB_TOKEN }}
+        run: |
+          dvc
