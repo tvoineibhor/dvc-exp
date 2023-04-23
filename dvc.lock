@@ -1,0 +1,88 @@
+schema: '2.0'
+stages:
+  process:
+    cmd: python src/process_data.py
+    deps:
+    - path: data/raw
+      md5: 8c4ae7c2f53adc246c2d64dc8e264738.dir
+      size: 100951
+      nfiles: 1
+    - path: src/process_data.py
+      md5: 32d5a1536d0ceced1e4ad3ed15121eb6
+      size: 1246
+    params:
+      params.yaml:
+        data:
+          raw: data/raw/winequality-red.csv
+          intermediate: data/intermediate
+        process:
+          feature: quality
+          test_size: 0.2
+    outs:
+    - path: data/intermediate
+      md5: 662e28de128a98b9ee5756170c43a72a.dir
+      size: 194875
+      nfiles: 4
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/intermediate
+      md5: 662e28de128a98b9ee5756170c43a72a.dir
+      size: 194875
+      nfiles: 4
+    - path: src/train.py
+      md5: 855f5c09de201557b6bc105b2e39dfe4
+      size: 1662
+    params:
+      params.yaml:
+        data:
+          raw: data/raw/winequality-red.csv
+          intermediate: data/intermediate
+        model: model/svm
+        train:
+          hyperparameters:
+            svm__kernel:
+            - linear
+            - poly
+            svm__C:
+            - 0.1
+            - 1
+            - 10
+            svm__gamma:
+            - 0.1
+            - 1
+            - 10
+          grid_search:
+            cv: 2
+            scoring: accuracy
+            verbose: 3
+    outs:
+    - path: model/svm
+      md5: 1280518eac87923c0d54ab21350c9f10
+      size: 148953
+    - path: model/svm.mlem
+      md5: c12ea92dd8ee55657bdd48f9317f3ef3
+      size: 1263
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/intermediate
+      md5: 662e28de128a98b9ee5756170c43a72a.dir
+      size: 194875
+      nfiles: 4
+    - path: model/svm
+      md5: 1280518eac87923c0d54ab21350c9f10
+      size: 148953
+    - path: src/evaluate.py
+      md5: b283611eb14ba482c74e47c6bc65612a
+      size: 807
+    params:
+      params.yaml:
+        data:
+          raw: data/raw/winequality-red.csv
+          intermediate: data/intermediate
+        model: model/svm
+    outs:
+    - path: dvclive/metrics.json
+      md5: 586cb16d532042cfc87722682f910036
+      size: 28
