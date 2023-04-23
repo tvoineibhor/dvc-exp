@@ -25,4 +25,7 @@ jobs:
           dags_user: ${{ secrets.DAGSHUB_USER }}
           dags_password: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
-          dvc
+          dvc remote modify origin --local auth basic
+          dvc remote modify origin --local user dags_user
+          dvc remote modify origin --local password dags_password
+          dvc remote list
