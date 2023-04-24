@@ -39,6 +39,7 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.PAT }}
         run: |
+          dvc metrics show --show-md >> report.md
           cat dvclive/params.yaml >> report.md
           cml comment create report.md
         
