@@ -48,6 +48,6 @@ jobs:
         
       - name: Build the Docker image
         run: |
-          docker build ./build --tag ghcr.io/tvoineibhor/dvc-exp:latest
-          docker push ghcr.io/tvoineibhor/dvc-exp:latest
+          docker build --tag ghcr.io/tvoineibhor/dvc-exp:latest --tag ghcr.io/tvoineibhor/dvc-exp:${{ github.sha }} ./build
+          docker push ghcr.io/tvoineibhor/dvc-exp --all-tags
         
