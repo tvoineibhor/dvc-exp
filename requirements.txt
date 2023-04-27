@@ -6,3 +6,4 @@ pytest>=7.2.2
 mlem>=0.4.10
 fastapi>=0.95.0
 dvclive>=2.5.1
+docker==6.0.1
