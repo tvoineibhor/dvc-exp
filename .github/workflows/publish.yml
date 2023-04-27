@@ -1,0 +1,39 @@
+name: publish-model
+
+on:
+  push:
+    branches:
+        - main
+
+jobs:
+  publish-model:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v2
+
+      - name: Environment setup
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: pulling data
+        env:
+          dags_user: ${{ secrets.USER }}
+          dags_password: ${{ secrets.PASSWORD }}
+        run: |
+          dvc remote modify origin --local auth basic
+          dvc remote modify origin --local user $dags_user
+          dvc remote modify origin --local password $dags_password
+          dvc pull --remote origin
+          
+      - name: reproduce model
+        run: dvc repro
+        
+      - name: generate build folder
+        run: mlem build docker_dir --model model/svm --server fastapi --target build
+        
