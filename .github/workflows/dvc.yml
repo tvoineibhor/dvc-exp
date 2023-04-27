@@ -2,6 +2,10 @@ name: Test code and app
 on: 
   pull_request:
     branches: [main]
+    paths:
+      - src/**
+      - tests/**
+      - params.yaml
       
 jobs:
   test_model:
