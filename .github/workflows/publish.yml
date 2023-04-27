@@ -20,7 +20,7 @@ jobs:
       
       - name: Install dependencies
         run: pip install -r requirements.txt
-
+        
       - name: pulling data
         env:
           dags_user: ${{ secrets.USER }}
@@ -33,7 +33,8 @@ jobs:
           
       - name: reproduce model
         run: dvc repro
-        
+      
       - name: generate build folder
-        run: mlem build docker_dir --model model/svm --server fastapi --target build
+        run: mlem build docker_dir --model model/svm \
+          --server fastapi --target build
         
