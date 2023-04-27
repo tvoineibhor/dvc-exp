@@ -35,6 +35,8 @@ jobs:
         run: dvc repro
       
       - name: generate build folder
-        run: mlem build docker_dir --model model/svm \
-          --server fastapi --target build
+        run: mlem build docker_dir \
+          --model model/svm \
+          --server fastapi \
+          --target build
         
