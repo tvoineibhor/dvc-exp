@@ -35,8 +35,13 @@ jobs:
           dvc remote modify origin --local user $dags_user
           dvc remote modify origin --local password $dags_password
           dvc pull --remote origin
-          
+      
       - name: reproduce model
+        env: 
+          MLFLOW_TRACKING_URI: ${{ https://dagshub.com/tvoineibhor/dvc-exp.mlflow }}
+          MLFLOW_TRACKING_USERNAME: ${{ secrets.USER }}
+          MLFLOW_TRACKING_PASSWORD: ${{ secrets.PASSWORD }}
+          
         run: dvc repro
         
       - name: Iterative CML setup
