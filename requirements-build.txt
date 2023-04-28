@@ -1,1 +1,6 @@
-
+dvc>=2.51.0
+mlem>=0.4.10
+dvclive>=2.5.1
+docker==6.0.1
+fastapi==0.95.1
+uvicorn==0.21.1
