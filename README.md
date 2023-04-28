@@ -5,4 +5,4 @@
 - Data scientists create pull request for changes.
 - CI pipeline: tests code and model.
 - Changes are merged if all tests pass.
-- Merge triggers CD pipeline for model deployment "somewhere".
+- Merge triggers CD pipeline for model deployment.
